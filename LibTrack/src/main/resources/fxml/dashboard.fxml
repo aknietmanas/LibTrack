@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+xmlns:fx="http://javafx.com/fxml"
+fx:controller="com.libtrack.controller.DashboardController"
+styleClass="root">
+
+
+    <top>
+        <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="20">
+            <Label text="📚 LibTrack" style="-fx-font-size: 20px; -fx-font-weight: 700;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Добро пожаловать!" style="-fx-font-size: 14px;"/>
+            <Button text="Выйти" onAction="#handleLogout" styleClass="button-secondary"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox styleClass="sidebar" spacing="5" prefWidth="220">
+            <Button text="📊 Главная" styleClass="nav-button, nav-button-active"
+maxWidth="Infinity" onAction="#showDashboard"/>
+            <Button text="📚 Книги" styleClass="nav-button"
+maxWidth="Infinity" onAction="#showBooks"/>
+            <Button text="✍️ Авторы" styleClass="nav-button"
+maxWidth="Infinity" onAction="#showAuthors"/>
+            <Button text="👥 Посетители" styleClass="nav-button"
+maxWidth="Infinity" onAction="#showVisitors"/>
+            <Button text="📤 Выдача книг" styleClass="nav-button"
+maxWidth="Infinity" onAction="#showLoans"/>
+            <Button text="📈 Статистика" styleClass="nav-button"
+maxWidth="Infinity" onAction="#showStatistics"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="30" style="-fx-padding: 30;">
+
+
+            <VBox spacing="5">
+                <Label text="Панель управления" styleClass="page-title"/>
+                <Label text="Обзор активности библиотеки" styleClass="subtitle"/>
+            </VBox>
+
+            <GridPane hgap="20" vgap="20">
+
+                <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="📚" style="-fx-font-size: 32px;"/>
+                    <Label fx:id="totalBooksLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: 700;"/>
+                    <Label text="Всего книг" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="📤" style="-fx-font-size: 32px;"/>
+                    <Label fx:id="activeLoanLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: 700;"/>
+                    <Label text="Книг на руках" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="👥" style="-fx-font-size: 32px;"/>
+                    <Label fx:id="totalVisitorsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: 700;"/>
+                    <Label text="Читателей" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+
+                <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="✍️" style="-fx-font-size: 32px;"/>
+                    <Label fx:id="totalAuthorsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: 700;"/>
+                    <Label text="Авторов" style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+
+            </GridPane>
+
+            <VBox spacing="15" styleClass="card">
+                <Label text="Быстрые действия" styleClass="section-title"/>
+                <HBox spacing="15">
+                    <Button text="➕ Добавить книгу" onAction="#showBooks"
+styleClass="button-success" prefHeight="40"/>
+                    <Button text="📤 Выдать книгу" onAction="#showLoans"
+styleClass="button" prefHeight="40"/>
+                    <Button text="👤 Новый читатель" onAction="#showVisitors"
+styleClass="button-secondary" prefHeight="40"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10" styleClass="card">
+                <Label text="ℹ️ Информация о системе" styleClass="section-title"/>
+                <Label text="Версия: 1.0.0" style="-fx-font-size: 14px;"/>
+                <Label text="База данных: MySQL" style="-fx-font-size: 14px;"/>
+                <Label text="Статус: Подключено ✓" style="-fx-font-size: 14px; -fx-text-fill: #10b981;"/>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
