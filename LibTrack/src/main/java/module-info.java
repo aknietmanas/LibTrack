@@ -3,6 +3,7 @@ module com.libtrack {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql;
+    requires bcrypt;
 
     opens com.libtrack to javafx.fxml;
     opens com.libtrack.model to javafx.fxml;

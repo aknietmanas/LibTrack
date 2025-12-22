@@ -3,7 +3,9 @@ package com.libtrack.model;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 
-
+/**
+ * Модель выдачи книги
+ */
 public class Loan {
 
     private final IntegerProperty loanId;
@@ -16,6 +18,7 @@ public class Loan {
     private final DoubleProperty fineAmount;
     private final StringProperty notes;
 
+    // Дополнительные поля для отображения
     private final StringProperty bookTitle;
     private final StringProperty visitorName;
 
@@ -40,6 +43,7 @@ public class Loan {
         this.visitorName = new SimpleStringProperty(visitorName);
     }
 
+    // Геттеры и сеттеры
 
     public int getLoanId() { return loanId.get(); }
     public void setLoanId(int value) { loanId.set(value); }
@@ -85,16 +89,20 @@ public class Loan {
     public void setVisitorName(String value) { visitorName.set(value); }
     public StringProperty visitorNameProperty() { return visitorName; }
 
-
+    /**
+     * Проверка просрочки
+     */
     public boolean isOverdue() {
         if (returnDate.get() != null) {
-            return false;
+            return false; // Уже возвращено
         }
         LocalDate due = dueDate.get();
         return due != null && LocalDate.now().isAfter(due);
     }
 
-
+    /**
+     * Количество дней просрочки
+     */
     public long getOverdueDays() {
         if (!isOverdue()) {
             return 0;
@@ -102,7 +110,9 @@ public class Loan {
         return java.time.temporal.ChronoUnit.DAYS.between(dueDate.get(), LocalDate.now());
     }
 
-
+    /**
+     * Статус для отображения
+     */
     public String getDisplayStatus() {
         if ("returned".equals(status.get())) {
             return "Возвращена";

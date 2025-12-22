@@ -1,14 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.Visitors"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.libtrack.controller.VisitorsController"
+            styleClass="root">
 
-</AnchorPane>
+    <!-- Верхняя панель с поиском -->
+    <top>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <Label text="Управление читателями" styleClass="page-title"/>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField"
+                           promptText="Поиск по имени, email, телефону..."
+                           prefWidth="400"
+                           style="-fx-padding: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalVisitorsLabel" text="Всего читателей: 0" style="-fx-font-size: 14px;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Основной контент -->
+    <center>
+        <SplitPane dividerPositions="0.6">
+
+            <!-- Левая часть: Таблица посетителей -->
+            <VBox spacing="10" style="-fx-padding: 20;">
+
+                <TableView fx:id="visitorsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colVisitorId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colFirstName" text="Имя" prefWidth="130"/>
+                        <TableColumn fx:id="colLastName" text="Фамилия" prefWidth="130"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="180"/>
+                        <TableColumn fx:id="colPhone" text="Телефон" prefWidth="130"/>
+                        <TableColumn fx:id="colStatus" text="Статус" prefWidth="100"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Нет читателей для отображения"/>
+                    </placeholder>
+                </TableView>
+
+            </VBox>
+
+            <!-- Правая часть: Форма добавления/редактирования -->
+            <VBox spacing="15" styleClass="card" style="-fx-padding: 20;">
+
+                <Label text="Информация о читателе" styleClass="section-title"/>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                    <VBox spacing="12">
+
+                        <!-- Имя -->
+                        <VBox spacing="5">
+                            <Label text="Имя *" styleClass="form-label"/>
+                            <TextField fx:id="firstNameField"
+                                       promptText="Введите имя"/>
+                        </VBox>
+
+                        <!-- Фамилия -->
+                        <VBox spacing="5">
+                            <Label text="Фамилия *" styleClass="form-label"/>
+                            <TextField fx:id="lastNameField"
+                                       promptText="Введите фамилию"/>
+                        </VBox>
+
+                        <!-- Email -->
+                        <VBox spacing="5">
+                            <Label text="Email" styleClass="form-label"/>
+                            <TextField fx:id="emailField"
+                                       promptText="example@email.com"/>
+                        </VBox>
+
+                        <!-- Телефон -->
+                        <VBox spacing="5">
+                            <Label text="Телефон" styleClass="form-label"/>
+                            <TextField fx:id="phoneField"
+                                       promptText="+7-777-123-4567"/>
+                        </VBox>
+
+                        <!-- Адрес -->
+                        <VBox spacing="5">
+                            <Label text="Адрес" styleClass="form-label"/>
+                            <TextArea fx:id="addressArea"
+                                      promptText="Улица, дом, квартира..."
+                                      prefRowCount="3"
+                                      wrapText="true"/>
+                        </VBox>
+
+                        <!-- Дата рождения -->
+                        <VBox spacing="5">
+                            <Label text="Дата рождения" styleClass="form-label"/>
+                            <DatePicker fx:id="birthDatePicker"
+                                        promptText="Выберите дату"
+                                        maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Статус -->
+                        <VBox spacing="5">
+                            <Label text="Статус *" styleClass="form-label"/>
+                            <ComboBox fx:id="statusComboBox"
+                                      maxWidth="Infinity">
+                                <tooltip>
+                                    <Tooltip text="active - активный читатель&#10;inactive - неактивный&#10;blocked - заблокирован"/>
+                                </tooltip>
+                            </ComboBox>
+                        </VBox>
+
+                        <!-- Кнопки действий -->
+                        <VBox spacing="10" style="-fx-padding: 10 0 0 0;">
+                            <Button fx:id="addButton"
+                                    text="Добавить читателя"
+                                    onAction="#handleAdd"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-success"/>
+
+                            <Button fx:id="updateButton"
+                                    text="Обновить читателя"
+                                    onAction="#handleUpdate"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button"/>
+
+                            <Button fx:id="deleteButton"
+                                    text="Удалить читателя"
+                                    onAction="#handleDelete"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-danger"/>
+
+                            <Button text="Очистить форму"
+                                    onAction="#handleClear"
+                                    maxWidth="Infinity"
+                                    prefHeight="35"
+                                    styleClass="button-secondary"/>
+                        </VBox>
+
+                        <Label text="* - обязательные поля"
+                               style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+
+                        <!-- Информационная панель -->
+                        <VBox spacing="8" styleClass="card" style="-fx-background-color: #f8fafc; -fx-padding: 15;">
+                            <Label text="Статусы читателей" style="-fx-font-weight: 600; -fx-font-size: 13px;"/>
+                            <VBox spacing="3">
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Label text="•" style="-fx-text-fill: #10b981; -fx-font-size: 16px;"/>
+                                    <Label text="Активен - может брать книги"
+                                           style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                                </HBox>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Label text="•" style="-fx-text-fill: #64748b; -fx-font-size: 16px;"/>
+                                    <Label text="Неактивен - временно не пользуется библиотекой"
+                                           style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                                </HBox>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Label text="•" style="-fx-text-fill: #ef4444; -fx-font-size: 16px;"/>
+                                    <Label text="Заблокирован - не может брать книги"
+                                           style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                    </VBox>
+                </ScrollPane>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>

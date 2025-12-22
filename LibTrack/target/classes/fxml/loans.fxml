@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.Loans"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.libtrack.controller.LoansController"
+            styleClass="root">
 
-</AnchorPane>
+    <top>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <Label text="Выдача и возврат книг" styleClass="page-title"/>
+
+            <!-- Фильтры -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Показать:" style="-fx-font-weight: 500;"/>
+                <RadioButton fx:id="allLoansRadio" text="Все выдачи"/>
+                <RadioButton fx:id="activeLoansRadio" text="Активные"/>
+                <RadioButton fx:id="overdueLoansRadio" text="Просроченные"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.55" orientation="VERTICAL">
+
+            <!-- Верхняя часть: Таблица выдач -->
+            <VBox spacing="10" style="-fx-padding: 20;">
+
+                <Label text="Список выдач" styleClass="section-title"/>
+
+                <TableView fx:id="loansTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colLoanId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colBookTitle" text="Книга" prefWidth="250"/>
+                        <TableColumn fx:id="colVisitorName" text="Читатель" prefWidth="180"/>
+                        <TableColumn fx:id="colLoanDate" text="Дата выдачи" prefWidth="120"/>
+                        <TableColumn fx:id="colDueDate" text="Срок возврата" prefWidth="120"/>
+                        <TableColumn fx:id="colReturnDate" text="Дата возврата" prefWidth="120"/>
+                        <TableColumn fx:id="colStatus" text="Статус" prefWidth="120"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Нет выдач для отображения"/>
+                    </placeholder>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button fx:id="returnButton"
+                            text="Вернуть книгу"
+                            onAction="#handleReturn"
+                            styleClass="button-success"
+                            prefHeight="35"/>
+                    <Label fx:id="selectedLoanInfo"
+                           text="Выберите выдачу для возврата"
+                           style="-fx-text-fill: #64748b;"/>
+                </HBox>
+
+            </VBox>
+
+            <!-- Нижняя часть: Форма выдачи -->
+            <VBox spacing="15" styleClass="card" style="-fx-padding: 20;">
+
+                <Label text="Выдать книгу" styleClass="section-title"/>
+
+                <GridPane hgap="15" vgap="12">
+
+                    <!-- Книга -->
+                    <Label text="Книга:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                           style="-fx-font-weight: 500;"/>
+                    <ComboBox fx:id="bookComboBox"
+                              promptText="Выберите книгу"
+                              maxWidth="Infinity"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0"
+                              GridPane.hgrow="ALWAYS"/>
+
+                    <!-- Читатель -->
+                    <Label text="Читатель:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                           style="-fx-font-weight: 500;"/>
+                    <ComboBox fx:id="visitorComboBox"
+                              promptText="Выберите читателя"
+                              maxWidth="Infinity"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1"
+                              GridPane.hgrow="ALWAYS"/>
+
+                    <!-- Дата выдачи -->
+                    <Label text="Дата выдачи:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                           style="-fx-font-weight: 500;"/>
+                    <DatePicker fx:id="loanDatePicker"
+                                maxWidth="Infinity"
+                                GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                GridPane.hgrow="ALWAYS"/>
+
+                    <!-- Срок (в днях) -->
+                    <Label text="Срок (дней):" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                           style="-fx-font-weight: 500;"/>
+                    <TextField fx:id="daysField"
+                               promptText="14"
+                               prefWidth="100"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <!-- Дата возврата -->
+                    <Label text="Дата возврата:" GridPane.columnIndex="0" GridPane.rowIndex="4"
+                           style="-fx-font-weight: 500;"/>
+                    <DatePicker fx:id="dueDatePicker"
+                                maxWidth="Infinity"
+                                GridPane.columnIndex="1" GridPane.rowIndex="4"
+                                GridPane.hgrow="ALWAYS"/>
+
+                </GridPane>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="issueButton"
+                            text="Выдать книгу"
+                            onAction="#handleIssue"
+                            styleClass="button"
+                            prefWidth="150"
+                            prefHeight="40"/>
+
+                    <Label text="Укажите книгу и читателя для выдачи"
+                           style="-fx-text-fill: #64748b; -fx-font-size: 13px;"/>
+                </HBox>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>

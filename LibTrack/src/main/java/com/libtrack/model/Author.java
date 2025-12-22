@@ -2,7 +2,9 @@ package com.libtrack.model;
 
 import javafx.beans.property.*;
 
-
+/**
+ * Модель автора
+ */
 public class Author {
 
     private final IntegerProperty authorId;
@@ -26,7 +28,7 @@ public class Author {
         this.country = new SimpleStringProperty(country);
     }
 
-
+    // Геттеры и сеттеры
 
     public int getAuthorId() { return authorId.get(); }
     public void setAuthorId(int value) { authorId.set(value); }
@@ -52,7 +54,9 @@ public class Author {
     public void setCountry(String value) { country.set(value); }
     public StringProperty countryProperty() { return country; }
 
-
+    /**
+     * Полное имя автора
+     */
     public String getFullName() {
         return firstName.get() + " " + lastName.get();
     }

@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS libtrack CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE libtrack;
 
@@ -103,11 +102,10 @@ BEGIN
 END//
 DELIMITER ;
 
-
---  (пароль: admin123 )
+-- Пользователи с правильным BCrypt хешем (пароль: admin123)
 INSERT INTO users (username, password_hash, full_name, role) VALUES
-('admin', '$2a$10$rXZ8qk5v1eJGJ0zK7kN3HeYRYp8VUu8mYBX.yZQmH0FJQxHQk3.mK', 'Администратор Системы', 'admin'),
-('librarian1', '$2a$10$rXZ8qk5v1eJGJ0zK7kN3HeYRYp8VUu8mYBX.yZQmH0FJQxHQk3.mK', 'Sovetbek Mansur', 'librarian');
+('admin', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIRq8S8/KG', 'Администратор Системы', 'admin'),
+('librarian1', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIRq8S8/KG', 'Sovetbek Mansur', 'librarian');
 
 -- Авторы
 INSERT INTO authors (first_name, last_name, biography, birth_year, country) VALUES
@@ -120,6 +118,7 @@ INSERT INTO authors (first_name, last_name, biography, birth_year, country) VALU
 ('J.K.', 'Rowling', 'British author and philanthropist', 1965, 'England'),
 ('Агата', 'Кристи', 'Английская писательница детективов', 1890, 'England');
 
+-- Книги
 INSERT INTO books (isbn, title, author_id, genre, publisher, publication_year, pages, copies_total, copies_available) VALUES
 ('978-5-17-123456-7', 'Преступление и наказание', 1, 'Роман', 'АСТ', 2020, 608, 3, 3),
 ('978-5-17-123457-4', 'Идиот', 1, 'Роман', 'АСТ', 2019, 640, 2, 2),
@@ -128,29 +127,31 @@ INSERT INTO books (isbn, title, author_id, genre, publisher, publication_year, p
 ('978-5-17-123460-4', 'Вишнёвый сад', 3, 'Пьеса', 'Азбука', 2020, 256, 2, 2),
 ('978-5-17-123461-1', 'Евгений Онегин', 4, 'Поэма', 'Азбука', 2021, 352, 3, 3),
 ('978-5-17-123462-8', 'Мастер и Маргарита', 5, 'Роман', 'АСТ', 2020, 512, 5, 5),
-('978-0-14-103614-4', '1984', 6, 'Dystopia', 'Penguin', 2003, 328, 3, 3),
-('978-0-14-303943-3', 'Animal Farm', 6, 'Satire', 'Penguin', 2008, 144, 2, 2),
-('978-0-7475-3269-9', 'Harry Potter and the Philosophers Stone', 7, 'Fantasy', 'Bloomsbury', 1997, 223, 4, 4),
-('978-0-00-712243-6', 'Murder on the Orient Express', 8, 'Detective', 'HarperCollins', 2010, 256, 2, 2);
+('978-0-14-103614-4', '1984', 6, 'Дистопиа', 'Penguin', 2003, 328, 3, 3),
+('978-0-14-303943-3', 'Animal Farm', 6, 'Сатира', 'Penguin', 2008, 144, 2, 2),
+('978-0-7475-3269-9', 'Harry Potter and the Philosophers Stone', 7, 'Фэнтези', 'Bloomsbury', 1997, 223, 4, 4),
+('978-0-00-712243-6', 'Murder on the Orient Express', 8, 'Дэтектив', 'HarperCollins', 2010, 256, 2, 2);
 
-
+-- Посетители
 INSERT INTO visitors (first_name, last_name, email, phone, address, birth_date, status) VALUES
 ('Иван', 'Петров', 'ivan.petrov@email.com', '+7-777-123-4567', 'ул. Абая, д. 10, кв. 25', '1990-05-15', 'active'),
 ('Анна', 'Сидорова', 'anna.sidorova@email.com', '+7-777-234-5678', 'ул. Назарбаева, д. 45', '1985-08-22', 'active'),
 ('Петр', 'Смирнов', 'petr.smirnov@email.com', '+7-777-345-6789', 'пр. Республики, д. 78, кв. 12', '1995-03-10', 'active'),
 ('Мария', 'Кузнецова', 'maria.kuznetsova@email.com', '+7-777-456-7890', 'ул. Желтоксан, д. 33', '1988-11-30', 'active'),
-('Дмитрий', 'Волков', 'dmitry.volkov@email.com', '+7-777-567-8901', 'ул. Сатпаева, д. 90А', '1992-07-18', 'active');
+('Дмитрий', 'Волков', 'dmitry.volkov@email.com', '+7-777-567-8901', 'ул. Сатпаева, д. 90А', '1992-07-18', 'active'),
+('Екатерина', 'Новикова', 'ekaterina.novikova@email.com', '+7-777-678-9012', 'ул. Толе би, д. 56', '1993-02-14', 'active');
 
+-- Выдачи книг
 INSERT INTO loans (book_id, visitor_id, loan_date, due_date, status, issued_by) VALUES
-(1, 1, '2024-11-15', '2024-12-15', 'active', 2),
-(3, 2, '2024-11-20', '2024-12-20', 'active', 2),
+(1, 1, '2024-11-15', '2024-12-15', 'active', 1),
+(3, 2, '2024-11-20', '2024-12-20', 'active', 1),
 (7, 3, '2024-10-10', '2024-11-10', 'returned', 2),
-(10, 4, '2024-11-25', '2024-12-25', 'active', 2);
+(10, 4, '2024-11-25', '2024-12-25', 'active', 1);
 
 -- Обновление return_date для возвращённой книги
 UPDATE loans SET return_date = '2024-11-08' WHERE loan_id = 3;
 
-
+-- Представления (Views)
 
 -- Популярные книги
 CREATE VIEW v_popular_books AS
@@ -165,6 +166,7 @@ LEFT JOIN loans l ON b.book_id = l.book_id
 GROUP BY b.book_id, b.title, author_name
 ORDER BY loan_count DESC;
 
+-- Активные читатели
 CREATE VIEW v_active_visitors AS
 SELECT
     v.visitor_id,

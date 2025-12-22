@@ -1,13 +1,12 @@
 package com.libtrack.controller;
 
-import com.libtrack.Main;
 import com.libtrack.dao.UserDAO;
 import com.libtrack.model.User;
+import com.libtrack.util.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
 
 public class LoginController {
 
@@ -28,7 +27,6 @@ public class LoginController {
 
     private UserDAO userDAO;
 
-
     @FXML
     public void initialize() {
         userDAO = new UserDAO();
@@ -40,13 +38,11 @@ public class LoginController {
         passwordField.textProperty().addListener((obs, old, newVal) -> hideError());
     }
 
-
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             handleLogin();
         }
     }
-
 
     @FXML
     private void handleLogin() {
@@ -63,18 +59,14 @@ public class LoginController {
         loginButton.setDisable(true);
 
         try {
-            // Проверка учетных данных
+            // Аутентификация через UserDAO
             User user = userDAO.authenticate(username, password);
 
             if (user != null) {
-
-                System.out.println("Вход выполнен: " + user.getFullName());
-
-
-                Main.showDashboard();
-
+                // Успешный вход - переход на главный экран
+                SceneManager.showDashboard();
             } else {
-
+                // Неудачный вход - показать ошибку
                 showError("Неверный логин или пароль");
                 passwordField.clear();
                 passwordField.requestFocus();
@@ -88,19 +80,15 @@ public class LoginController {
         }
     }
 
-
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
-
         shakeNode(errorLabel);
     }
-
 
     private void hideError() {
         errorLabel.setVisible(false);
     }
-
 
     private void shakeNode(javafx.scene.Node node) {
         javafx.animation.TranslateTransition tt = new javafx.animation.TranslateTransition(

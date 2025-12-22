@@ -1,0 +1,18 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Maven
+target/
+
+# JDK
+.jdks/
+**/.jdks/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled
+*.class

@@ -1,14 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.Statistics"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.libtrack.controller.StatisticsController"
+            styleClass="root">
 
-</AnchorPane>
+    <!-- Верхняя панель -->
+    <top>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Статистика и аналитика" styleClass="page-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Обновить" onAction="#handleRefresh" styleClass="button"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Основной контент -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox spacing="20" style="-fx-padding: 20;">
+
+                <!-- Карточки с метриками -->
+                <VBox spacing="15">
+                    <Label text="Общая статистика" styleClass="section-title"/>
+
+                    <GridPane hgap="15" vgap="15">
+
+                        <!-- Карточка: Всего книг -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Всего книг" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="totalBooksLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #2563eb;"/>
+                        </VBox>
+
+                        <!-- Карточка: Всего экземпляров -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Всего экземпляров" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="totalCopiesLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #2563eb;"/>
+                        </VBox>
+
+                        <!-- Карточка: Доступно -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="2" GridPane.rowIndex="0">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Доступно" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="availableCopiesLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #10b981;"/>
+                        </VBox>
+
+                        <!-- Карточка: Авторов -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Авторов" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="totalAuthorsLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #2563eb;"/>
+                        </VBox>
+
+                        <!-- Карточка: Всего читателей -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Всего читателей" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="totalVisitorsLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #2563eb;"/>
+                        </VBox>
+
+                        <!-- Карточка: Активных читателей -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Активных читателей" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="activeVisitorsLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #10b981;"/>
+                        </VBox>
+
+                        <!-- Карточка: Активных выдач -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Активных выдач" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="activeLoansLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #f59e0b;"/>
+                        </VBox>
+
+                        <!-- Карточка: Просрочки -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Просрочено" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="overdueLoansLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #ef4444;"/>
+                        </VBox>
+
+                        <!-- Карточка: Всего выдач -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Всего выдач" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="totalLoansLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #2563eb;"/>
+                        </VBox>
+
+                        <!-- Карточка: Возвращено -->
+                        <VBox styleClass="stat-card" spacing="8"
+                              GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                            <Label text="Возвращено" style="-fx-font-size: 13px; -fx-text-fill: #64748b;"/>
+                            <Label fx:id="returnedLoansLabel" text="0"
+                                   style="-fx-font-size: 28px; -fx-font-weight: 700; -fx-text-fill: #10b981;"/>
+                        </VBox>
+
+                    </GridPane>
+                </VBox>
+
+                <!-- Графики: Первая строка -->
+                <GridPane hgap="20" vgap="20">
+
+                    <!-- График: Распределение по жанрам -->
+                    <VBox styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <PieChart fx:id="genreChart"
+                                  prefHeight="350"
+                                  prefWidth="500"
+                                  legendVisible="true"/>
+                    </VBox>
+
+                    <!-- График: Популярные книги -->
+                    <VBox styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <BarChart fx:id="popularBooksChart"
+                                  prefHeight="350"
+                                  prefWidth="600"
+                                  legendVisible="false">
+                            <xAxis>
+                                <CategoryAxis side="BOTTOM"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis side="LEFT" label="Количество выдач"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+
+                </GridPane>
+
+                <!-- Графики: Вторая строка -->
+                <GridPane hgap="20" vgap="20">
+
+                    <!-- График: Динамика выдач -->
+                    <VBox styleClass="card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <LineChart fx:id="loansTimelineChart"
+                                   prefHeight="350"
+                                   prefWidth="700"
+                                   legendVisible="true">
+                            <xAxis>
+                                <CategoryAxis side="BOTTOM" label="Месяц"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis side="LEFT" label="Количество выдач"/>
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <!-- График: Статистика возвратов -->
+                    <VBox styleClass="card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <PieChart fx:id="returnStatsChart"
+                                  prefHeight="350"
+                                  prefWidth="400"
+                                  legendVisible="true"/>
+                    </VBox>
+
+                </GridPane>
+
+                <!-- График: Активные читатели (полная ширина) -->
+                <VBox styleClass="card">
+                    <BarChart fx:id="activeReadersChart"
+                              prefHeight="350"
+                              legendVisible="false">
+                        <xAxis>
+                            <CategoryAxis side="BOTTOM" label="Читатели"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis side="LEFT" label="Количество взятых книг"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

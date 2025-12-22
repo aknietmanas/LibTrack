@@ -6,10 +6,14 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDate;
 
-
+/**
+ * DAO для работы с выдачей книг
+ */
 public class LoanDAO {
 
-
+    /**
+     * Получить все выдачи с информацией о книге и посетителе
+     */
     public ObservableList<Loan> getAllLoans() {
         ObservableList<Loan> loans = FXCollections.observableArrayList();
         String sql = "SELECT l.*, b.title as book_title, " +
@@ -35,7 +39,9 @@ public class LoanDAO {
         return loans;
     }
 
-
+    /**
+     * Получить активные выдачи
+     */
     public ObservableList<Loan> getActiveLoans() {
         ObservableList<Loan> loans = FXCollections.observableArrayList();
         String sql = "SELECT l.*, b.title as book_title, " +
@@ -61,7 +67,9 @@ public class LoanDAO {
         return loans;
     }
 
-
+    /**
+     * Получить просроченные выдачи
+     */
     public ObservableList<Loan> getOverdueLoans() {
         ObservableList<Loan> loans = FXCollections.observableArrayList();
         String sql = "SELECT l.*, b.title as book_title, " +
@@ -87,7 +95,9 @@ public class LoanDAO {
         return loans;
     }
 
-
+    /**
+     * Выдать книгу
+     */
     public boolean issueLoan(int bookId, int visitorId, LocalDate loanDate, LocalDate dueDate, int issuedBy) {
         String sql = "INSERT INTO loans (book_id, visitor_id, loan_date, due_date, status, issued_by) " +
                 "VALUES (?, ?, ?, ?, 'active', ?)";
@@ -111,7 +121,9 @@ public class LoanDAO {
         return false;
     }
 
-
+    /**
+     * Вернуть книгу
+     */
     public boolean returnLoan(int loanId, LocalDate returnDate) {
         String sql = "UPDATE loans SET status = 'returned', return_date = ? WHERE loan_id = ?";
 
@@ -131,7 +143,9 @@ public class LoanDAO {
         return false;
     }
 
-
+    /**
+     * Обновить штраф
+     */
     public boolean updateFine(int loanId, double fineAmount) {
         String sql = "UPDATE loans SET fine_amount = ? WHERE loan_id = ?";
 
@@ -150,7 +164,9 @@ public class LoanDAO {
         return false;
     }
 
-
+    /**
+     * Получить выдачи по посетителю
+     */
     public ObservableList<Loan> getLoansByVisitor(int visitorId) {
         ObservableList<Loan> loans = FXCollections.observableArrayList();
         String sql = "SELECT l.*, b.title as book_title, " +
@@ -178,7 +194,9 @@ public class LoanDAO {
         return loans;
     }
 
-
+    /**
+     * Получить выдачи по книге
+     */
     public ObservableList<Loan> getLoansByBook(int bookId) {
         ObservableList<Loan> loans = FXCollections.observableArrayList();
         String sql = "SELECT l.*, b.title as book_title, " +
@@ -206,7 +224,9 @@ public class LoanDAO {
         return loans;
     }
 
-
+    /**
+     * Создать объект Loan из ResultSet
+     */
     private Loan extractLoanFromResultSet(ResultSet rs) throws SQLException {
         Date loanDate = rs.getDate("loan_date");
         Date dueDate = rs.getDate("due_date");

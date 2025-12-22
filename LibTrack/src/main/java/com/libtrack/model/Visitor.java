@@ -3,7 +3,9 @@ package com.libtrack.model;
 import javafx.beans.property.*;
 import java.time.LocalDate;
 
-
+/**
+ * Модель посетителя (читателя)
+ */
 public class Visitor {
 
     private final IntegerProperty visitorId;
@@ -34,6 +36,7 @@ public class Visitor {
         this.status = new SimpleStringProperty(status);
     }
 
+    // Геттеры и сеттеры
 
     public int getVisitorId() { return visitorId.get(); }
     public void setVisitorId(int value) { visitorId.set(value); }
@@ -71,12 +74,16 @@ public class Visitor {
     public void setStatus(String value) { status.set(value); }
     public StringProperty statusProperty() { return status; }
 
-
+    /**
+     * Полное имя посетителя
+     */
     public String getFullName() {
         return firstName.get() + " " + lastName.get();
     }
 
-
+    /**
+     * Проверка активности
+     */
     public boolean isActive() {
         return "active".equalsIgnoreCase(status.get());
     }

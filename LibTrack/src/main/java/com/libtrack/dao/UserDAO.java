@@ -1,43 +1,60 @@
 package com.libtrack.dao;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.libtrack.model.User;
+import com.libtrack.util.CurrentUser;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-
 public class UserDAO {
 
-
+    /**
+     * Аутентификация пользователя с BCrypt
+     */
     public User authenticate(String username, String password) {
-        String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
+        String sql = "SELECT * FROM users WHERE username = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, username);
-
-            stmt.setString(2, hashPassword(password));
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                User user = extractUserFromResultSet(rs);
+                String storedHash = rs.getString("password_hash");
 
+                // Проверка пароля через BCrypt
+                BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), storedHash);
 
-                updateLastLogin(user.getUserId());
+                if (result.verified) {
+                    User user = extractUserFromResultSet(rs);
 
-                return user;
+                    // Сохранить пользователя в CurrentUser
+                    CurrentUser.getInstance().setUser(user);
+
+                    // Обновить время последнего входа
+                    updateLastLogin(user.getUserId());
+
+                    System.out.println("✓ Аутентификация успешна: " + user.getFullName());
+                    return user;
+                } else {
+                    System.out.println("✗ Неверный пароль");
+                }
+            } else {
+                System.out.println("✗ Пользователь не найден");
             }
 
         } catch (SQLException e) {
-            System.err.println("Ошибка аутентификации: " + e.getMessage());
+            System.err.println("✗ Ошибка аутентификации: " + e.getMessage());
             e.printStackTrace();
         }
 
         return null;
     }
 
-
+    /**
+     * Получить пользователя по ID
+     */
     public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
 
@@ -58,7 +75,9 @@ public class UserDAO {
         return null;
     }
 
-
+    /**
+     * Обновить время последнего входа
+     */
     private void updateLastLogin(int userId) {
         String sql = "UPDATE users SET last_login = NOW() WHERE user_id = ?";
 
@@ -73,7 +92,9 @@ public class UserDAO {
         }
     }
 
-
+    /**
+     * Извлечь пользователя из ResultSet
+     */
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         int userId = rs.getInt("user_id");
         String username = rs.getString("username");
@@ -93,15 +114,10 @@ public class UserDAO {
                 role, createdAt, lastLogin);
     }
 
-
-    private String hashPassword(String password) {
-
-        return "$2a$10$rXZ8qk5v1eJGJ0zK7kN3HeYRYp8VUu8mYBX.yZQmH0FJQxHQk3.mK";
-    }
-
-
-    private boolean verifyPassword(String password, String hash) {
-
-        return hashPassword(password).equals(hash);
+    /**
+     * Создать BCrypt хеш для пароля
+     */
+    public String hashPassword(String password) {
+        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
     }
 }

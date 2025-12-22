@@ -6,10 +6,14 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDate;
 
-
+/**
+ * DAO для работы с посетителями
+ */
 public class VisitorDAO {
 
-
+    /**
+     * Получить всех посетителей
+     */
     public ObservableList<Visitor> getAllVisitors() {
         ObservableList<Visitor> visitors = FXCollections.observableArrayList();
         String sql = "SELECT * FROM visitors ORDER BY last_name, first_name";
@@ -30,7 +34,9 @@ public class VisitorDAO {
         return visitors;
     }
 
-
+    /**
+     * Получить посетителя по ID
+     */
     public Visitor getVisitorById(int visitorId) {
         String sql = "SELECT * FROM visitors WHERE visitor_id = ?";
 
@@ -51,7 +57,9 @@ public class VisitorDAO {
         return null;
     }
 
-
+    /**
+     * Добавить посетителя
+     */
     public boolean addVisitor(Visitor visitor) {
         String sql = "INSERT INTO visitors (first_name, last_name, email, phone, address, " +
                 "registration_date, birth_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -88,7 +96,9 @@ public class VisitorDAO {
         return false;
     }
 
-
+    /**
+     * Обновить посетителя
+     */
     public boolean updateVisitor(Visitor visitor) {
         String sql = "UPDATE visitors SET first_name = ?, last_name = ?, email = ?, " +
                 "phone = ?, address = ?, birth_date = ?, status = ? WHERE visitor_id = ?";
@@ -116,7 +126,9 @@ public class VisitorDAO {
         return false;
     }
 
-
+    /**
+     * Удалить посетителя
+     */
     public boolean deleteVisitor(int visitorId) {
         String sql = "DELETE FROM visitors WHERE visitor_id = ?";
 
@@ -134,7 +146,9 @@ public class VisitorDAO {
         return false;
     }
 
-
+    /**
+     * Поиск посетителей
+     */
     public ObservableList<Visitor> searchVisitors(String keyword) {
         ObservableList<Visitor> visitors = FXCollections.observableArrayList();
         String sql = "SELECT * FROM visitors WHERE " +
@@ -163,7 +177,9 @@ public class VisitorDAO {
         return visitors;
     }
 
-
+    /**
+     * Получить активных посетителей
+     */
     public ObservableList<Visitor> getActiveVisitors() {
         ObservableList<Visitor> visitors = FXCollections.observableArrayList();
         String sql = "SELECT * FROM visitors WHERE status = 'active' ORDER BY last_name, first_name";
@@ -183,7 +199,9 @@ public class VisitorDAO {
         return visitors;
     }
 
-
+    /**
+     * Создать объект Visitor из ResultSet
+     */
     private Visitor extractVisitorFromResultSet(ResultSet rs) throws SQLException {
         Date regDate = rs.getDate("registration_date");
         Date birthDate = rs.getDate("birth_date");

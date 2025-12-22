@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 
-
+/**
+ * DAO для работы с книгами
+ */
 public class BookDAO {
 
-
+    /**
+     * Получить все книги с информацией об авторе
+     */
     public ObservableList<Book> getAllBooks() {
         ObservableList<Book> books = FXCollections.observableArrayList();
         String sql = "SELECT b.*, CONCAT(a.first_name, ' ', a.last_name) as author_name " +
@@ -32,7 +36,9 @@ public class BookDAO {
         return books;
     }
 
-
+    /**
+     * Получить книгу по ID
+     */
     public Book getBookById(int bookId) {
         String sql = "SELECT b.*, CONCAT(a.first_name, ' ', a.last_name) as author_name " +
                 "FROM books b " +
@@ -56,7 +62,9 @@ public class BookDAO {
         return null;
     }
 
-
+    /**
+     * Добавить книгу
+     */
     public boolean addBook(Book book) {
         String sql = "INSERT INTO books (isbn, title, author_id, genre, publisher, " +
                 "publication_year, pages, copies_total, copies_available, description) " +
@@ -94,7 +102,9 @@ public class BookDAO {
         return false;
     }
 
-
+    /**
+     * Обновить книгу
+     */
     public boolean updateBook(Book book) {
         String sql = "UPDATE books SET isbn = ?, title = ?, author_id = ?, genre = ?, " +
                 "publisher = ?, publication_year = ?, pages = ?, copies_total = ?, " +
@@ -125,7 +135,9 @@ public class BookDAO {
         return false;
     }
 
-
+    /**
+     * Удалить книгу
+     */
     public boolean deleteBook(int bookId) {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
@@ -143,7 +155,9 @@ public class BookDAO {
         return false;
     }
 
-
+    /**
+     * Поиск книг
+     */
     public ObservableList<Book> searchBooks(String keyword) {
         ObservableList<Book> books = FXCollections.observableArrayList();
         String sql = "SELECT b.*, CONCAT(a.first_name, ' ', a.last_name) as author_name " +
@@ -174,7 +188,9 @@ public class BookDAO {
         return books;
     }
 
-
+    /**
+     * Получить доступные книги
+     */
     public ObservableList<Book> getAvailableBooks() {
         ObservableList<Book> books = FXCollections.observableArrayList();
         String sql = "SELECT b.*, CONCAT(a.first_name, ' ', a.last_name) as author_name " +

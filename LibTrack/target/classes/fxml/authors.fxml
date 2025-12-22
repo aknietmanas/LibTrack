@@ -1,14 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.Authors"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.libtrack.controller.AuthorsController"
+            styleClass="root">
 
-</AnchorPane>
+    <!-- Верхняя панель с поиском -->
+    <top>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <Label text="Управление авторами" styleClass="page-title"/>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField"
+                           promptText="Поиск по имени, фамилии, стране..."
+                           prefWidth="400"
+                           style="-fx-padding: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalAuthorsLabel" text="Всего авторов: 0" style="-fx-font-size: 14px;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Основной контент -->
+    <center>
+        <SplitPane dividerPositions="0.6">
+
+            <!-- Левая часть: Таблица авторов -->
+            <VBox spacing="10" style="-fx-padding: 20;">
+
+                <TableView fx:id="authorsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colAuthorId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colFirstName" text="Имя" prefWidth="150"/>
+                        <TableColumn fx:id="colLastName" text="Фамилия" prefWidth="150"/>
+                        <TableColumn fx:id="colCountry" text="Страна" prefWidth="120"/>
+                        <TableColumn fx:id="colBirthYear" text="Год рождения" prefWidth="120"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Нет авторов для отображения"/>
+                    </placeholder>
+                </TableView>
+
+            </VBox>
+
+            <!-- Правая часть: Форма добавления/редактирования -->
+            <VBox spacing="15" styleClass="card" style="-fx-padding: 20;">
+
+                <Label text="Информация об авторе" styleClass="section-title"/>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                    <VBox spacing="12">
+
+                        <!-- Имя -->
+                        <VBox spacing="5">
+                            <Label text="Имя *" styleClass="form-label"/>
+                            <TextField fx:id="firstNameField"
+                                       promptText="Введите имя автора"/>
+                        </VBox>
+
+                        <!-- Фамилия -->
+                        <VBox spacing="5">
+                            <Label text="Фамилия *" styleClass="form-label"/>
+                            <TextField fx:id="lastNameField"
+                                       promptText="Введите фамилию автора"/>
+                        </VBox>
+
+                        <!-- Страна -->
+                        <VBox spacing="5">
+                            <Label text="Страна" styleClass="form-label"/>
+                            <TextField fx:id="countryField"
+                                       promptText="Россия, США, Великобритания..."/>
+                        </VBox>
+
+                        <!-- Год рождения -->
+                        <VBox spacing="5">
+                            <Label text="Год рождения" styleClass="form-label"/>
+                            <TextField fx:id="birthYearField"
+                                       promptText="1799"/>
+                        </VBox>
+
+                        <!-- Биография -->
+                        <VBox spacing="5">
+                            <Label text="Биография" styleClass="form-label"/>
+                            <TextArea fx:id="biographyArea"
+                                      promptText="Краткая биография автора..."
+                                      prefRowCount="8"
+                                      wrapText="true"/>
+                        </VBox>
+
+                        <!-- Кнопки действий -->
+                        <VBox spacing="10" style="-fx-padding: 10 0 0 0;">
+                            <Button fx:id="addButton"
+                                    text="Добавить автора"
+                                    onAction="#handleAdd"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-success"/>
+
+                            <Button fx:id="updateButton"
+                                    text="Обновить автора"
+                                    onAction="#handleUpdate"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button"/>
+
+                            <Button fx:id="deleteButton"
+                                    text="Удалить автора"
+                                    onAction="#handleDelete"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-danger"/>
+
+                            <Button text="Очистить форму"
+                                    onAction="#handleClear"
+                                    maxWidth="Infinity"
+                                    prefHeight="35"
+                                    styleClass="button-secondary"/>
+                        </VBox>
+
+                        <Label text="* - обязательные поля"
+                               style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+
+                        <!-- Информационная панель -->
+                        <VBox spacing="8" styleClass="card" style="-fx-background-color: #f8fafc; -fx-padding: 15;">
+                            <Label text="Совет" style="-fx-font-weight: 600; -fx-font-size: 13px;"/>
+                            <Label text="При удалении автора будут удалены все его книги из системы."
+                                   wrapText="true"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                        </VBox>
+
+                    </VBox>
+                </ScrollPane>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>

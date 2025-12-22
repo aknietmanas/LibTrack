@@ -3,7 +3,6 @@ package com.libtrack.model;
 import javafx.beans.property.*;
 import java.time.LocalDateTime;
 
-
 public class User {
 
     private final IntegerProperty userId;
@@ -29,7 +28,6 @@ public class User {
         this.createdAt = new SimpleObjectProperty<>(createdAt);
         this.lastLogin = new SimpleObjectProperty<>(lastLogin);
     }
-
 
     public int getUserId() { return userId.get(); }
     public void setUserId(int value) { userId.set(value); }
@@ -58,7 +56,6 @@ public class User {
     public LocalDateTime getLastLogin() { return lastLogin.get(); }
     public void setLastLogin(LocalDateTime value) { lastLogin.set(value); }
     public ObjectProperty<LocalDateTime> lastLoginProperty() { return lastLogin; }
-
 
     public boolean isAdmin() {
         return "admin".equalsIgnoreCase(role.get());

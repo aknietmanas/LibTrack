@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.libtrack.controller.BooksController"
+            styleClass="root">
+
+    <!-- Верхняя панель с поиском -->
+    <top>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <Label text="Управление книгами" styleClass="page-title"/>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField"
+                           promptText="Поиск по названию, автору, жанру, ISBN..."
+                           prefWidth="400"
+                           style="-fx-padding: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+
+                <Button text="Очистить" onAction="#handleClear" styleClass="button-secondary"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalBooksLabel" text="Всего книг: 0" style="-fx-font-size: 14px;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Основной контент -->
+    <center>
+        <SplitPane dividerPositions="0.6">
+
+            <!-- Левая часть: Таблица книг -->
+            <VBox spacing="10" style="-fx-padding: 20;">
+
+                <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colBookId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="130"/>
+                        <TableColumn fx:id="colTitle" text="Название" prefWidth="200"/>
+                        <TableColumn fx:id="colAuthor" text="Автор" prefWidth="150"/>
+                        <TableColumn fx:id="colGenre" text="Жанр" prefWidth="100"/>
+                        <TableColumn fx:id="colYear" text="Год" prefWidth="60"/>
+                        <TableColumn fx:id="colAvailable" text="Доступно" prefWidth="80"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Нет книг для отображения"/>
+                    </placeholder>
+                </TableView>
+
+            </VBox>
+
+            <!-- Правая часть: Форма добавления/редактирования -->
+            <VBox spacing="15" styleClass="card" style="-fx-padding: 20;">
+
+                <Label text="Информация о книге" styleClass="section-title"/>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                    <VBox spacing="12">
+
+                        <!-- Название -->
+                        <VBox spacing="5">
+                            <Label text="Название *" styleClass="form-label"/>
+                            <TextField fx:id="titleField"
+                                       promptText="Введите название книги"/>
+                        </VBox>
+
+                        <!-- ISBN -->
+                        <VBox spacing="5">
+                            <Label text="ISBN" styleClass="form-label"/>
+                            <TextField fx:id="isbnField"
+                                       promptText="978-5-17-123456-7"/>
+                        </VBox>
+
+                        <!-- Автор -->
+                        <VBox spacing="5">
+                            <Label text="Автор *" styleClass="form-label"/>
+                            <ComboBox fx:id="authorComboBox"
+                                      promptText="Выберите автора"
+                                      maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Жанр -->
+                        <VBox spacing="5">
+                            <Label text="Жанр" styleClass="form-label"/>
+                            <TextField fx:id="genreField"
+                                       promptText="Роман, Фантастика, Детектив..."/>
+                        </VBox>
+
+                        <!-- Издательство -->
+                        <VBox spacing="5">
+                            <Label text="Издательство" styleClass="form-label"/>
+                            <TextField fx:id="publisherField"
+                                       promptText="Название издательства"/>
+                        </VBox>
+
+                        <!-- Год издания -->
+                        <VBox spacing="5">
+                            <Label text="Год издания *" styleClass="form-label"/>
+                            <TextField fx:id="yearField"
+                                       promptText="2024"/>
+                        </VBox>
+
+                        <!-- Количество страниц -->
+                        <VBox spacing="5">
+                            <Label text="Страниц" styleClass="form-label"/>
+                            <TextField fx:id="pagesField"
+                                       promptText="350"/>
+                        </VBox>
+
+                        <!-- Общее количество экземпляров -->
+                        <VBox spacing="5">
+                            <Label text="Всего экземпляров *" styleClass="form-label"/>
+                            <TextField fx:id="copiesTotalField"
+                                       promptText="5"/>
+                        </VBox>
+
+                        <!-- Доступно экземпляров -->
+                        <VBox spacing="5">
+                            <Label text="Доступно экземпляров *" styleClass="form-label"/>
+                            <TextField fx:id="copiesAvailableField"
+                                       promptText="5"/>
+                        </VBox>
+
+                        <!-- Описание -->
+                        <VBox spacing="5">
+                            <Label text="Описание" styleClass="form-label"/>
+                            <TextArea fx:id="descriptionArea"
+                                      promptText="Краткое описание книги..."
+                                      prefRowCount="4"
+                                      wrapText="true"/>
+                        </VBox>
+
+                        <!-- Кнопки действий -->
+                        <VBox spacing="10" style="-fx-padding: 10 0 0 0;">
+                            <Button fx:id="addButton"
+                                    text="Добавить книгу"
+                                    onAction="#handleAdd"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-success"/>
+
+                            <Button fx:id="updateButton"
+                                    text="Обновить книгу"
+                                    onAction="#handleUpdate"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button"/>
+
+                            <Button fx:id="deleteButton"
+                                    text="Удалить книгу"
+                                    onAction="#handleDelete"
+                                    maxWidth="Infinity"
+                                    prefHeight="40"
+                                    styleClass="button-danger"/>
+
+                            <Button fx:id="clearButton"
+                                    text="Очистить форму"
+                                    onAction="#handleClear"
+                                    maxWidth="Infinity"
+                                    prefHeight="35"
+                                    styleClass="button-secondary"/>
+                        </VBox>
+
+                        <Label text="* - обязательные поля"
+                               style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+
+                    </VBox>
+                </ScrollPane>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>
